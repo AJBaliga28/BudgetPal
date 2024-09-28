@@ -1,0 +1,80 @@
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Expenses from "./components/Expenses/Expenses";
+import Income from "./components/Income/Income";
+import Login from "./components/Auth/Login";
+import Signup from "./components/Auth/Signup";
+import { useAuth } from "./context/AuthContext";
+import bg from "./img/green-bg.jpg";
+import styled from "styled-components";
+
+export default function App() {
+  const { user } = useAuth(); // Access user state to determine if logged in
+
+  return (
+    <Router>
+      <AppStyled>
+        <Routes>
+          {/* Redirect to signup if not logged in and accessing the root route */}
+          <Route path="/" element={<Navigate to="/signup" />} />
+
+          {/* Authentication routes */}
+          <Route
+            path="/signup"
+            element={!user ? <Signup /> : <Navigate to="/app" />}
+          />
+          <Route
+            path="/login"
+            element={!user ? <Login /> : <Navigate to="/app" />}
+          />
+
+          {/* Main app/dashboard routes, only accessible if logged in */}
+          <Route
+            path="/app"
+            element={user ? <MainApp /> : <Navigate to="/login" />}
+          />
+        </Routes>
+      </AppStyled>
+    </Router>
+  );
+}
+
+const AppStyled = styled.div`
+  height: 100vh;
+  background: url(${bg});
+  background-size: cover;
+  position: relative;
+
+  main {
+    flex: 1;
+    background: rgba(252, 246, 249, 0.78);
+    border: 3px solid #fff;
+    backdrop-filter: blur(4.5px);
+    border-radius: 32px;
+    overflow: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+`;
+
+const MainApp = () => {
+  return (
+    <>
+      {/* Navbar can be re-enabled */}
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/income" element={<Income />} />
+        <Route path="/expenses" element={<Expenses />} />
+      </Routes>
+    </>
+  );
+};
