@@ -16,7 +16,7 @@ connectDB();
 const app = express();
 const allowedOrigins = ["https://budgetpal-3c49.onrender.com"];
 
-// app.use(express.json());
+app.use(express.json());
 
 app.use(
   cors({
@@ -25,7 +25,7 @@ app.use(
   })
 );
 
-app.use(cors());
+// app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("<h1> Yo! </h1>");
