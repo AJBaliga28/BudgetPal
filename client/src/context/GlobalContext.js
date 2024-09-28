@@ -1,7 +1,8 @@
 import { useContext, createContext, useState } from "react";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL =
+  `${process.env.REACT_APP_API_URL}/api/users` || "http://localhost:5000/api/";
 const token = localStorage.getItem("token"); // Retrieve token from local storage
 axios.defaults.headers.common["Authorization"] = `Bearer ${token}`; // Set Authorization header
 
