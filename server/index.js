@@ -14,16 +14,16 @@ dotenv.config();
 connectDB();
 
 const app = express();
-// const allowedOrigins = [""];
+const allowedOrigins = ["https://budgetpal-3c49.onrender.com"];
 
-app.use(express.json());
+// app.use(express.json());
 
-// app.use(
-//   cors({
-//     origin: allowedOrigins,
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 app.use(cors());
 
